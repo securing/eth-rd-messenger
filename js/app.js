@@ -1,5 +1,5 @@
 App = {
-  INFO: " (visit: http://damianrusinek.githubio/rdeth)",
+  INFO: " (visit: https://git.io/vhW9p)",
   web3Provider: null,
   web3NetworkId: null,
   address: null,
