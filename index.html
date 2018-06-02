@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>RD Ethereum Messenger DApp</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- App -->
+    <link href="css/app.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-push-2">
+          <h1 class="text-center">Ethereum Responsible Disclosure Messenger</h1>
+          <hr/>
+          <p>
+            This tool is used to:
+            <ul>
+              <li>send a secret message to the owner of a personal or contract Ethereum address, encypted with its owner ECC public key,</li>
+              <li>decrypt the message sent to the personal address or contract's owner.</li>
+            </ul>
+          </p>
+          <div class="more-info" style="display: none;">
+          <h2>Motivation</h2>
+          <p>
+            When doing research in the field of Ethereum Smart Contract security I came across a problem in finding the owner of the vulnerable contracts. This is particularly important for publicly available smart contracts, where time plays a crucial role.
+          </p>
+          <p>
+            When you, as an ethical hacker, want to report the vulnerability you can either:
+            <ul>
+                <li>exploit it illegally and start looking for the owner (we don't want to do that), or</li>
+                <li>start looking for the owner and hope that noone exploits the vulnerability (we don't want to do that either).</li>
+            </ul>
+            I want to use this tool for Responsible Disclosure. I firstly leave the encrypted, unmodifiable and undeniable message (in the end it's blockchain) where to find the stolen Ether and then exploit the vulnerability.
+          </p>
+          </div>
+          <div class="text-center">
+            <button class="more-info">Show more info...</button>
+          </div>
+          <hr/>
+        </div>
+      </div>
+
+      <div class="row no-web3-error hidden ">
+        <div class="col-xs-12 col-sm-8 col-sm-push-2">
+          <p class="bg-danger text-danger" style="padding: 15px;">
+            Sorry, no web3 provider found. Did you forget to run MetaMask or Mist?
+          </p>
+          <hr />
+        </div>
+      </div>
+
+      <div class="row web3-net-error hidden ">
+        <div class="col-xs-12 col-sm-8 col-sm-push-2">
+          <p class="bg-danger text-danger" style="padding: 15px;">
+            Sorry, I cannot connect to Ethereum network.
+          </p>
+          <hr />
+        </div>
+      </div>
+
+      <div class="row web3-unsupported-net-error hidden ">
+        <div class="col-xs-12 col-sm-8 col-sm-push-2">
+          <p class="bg-danger text-danger" style="padding: 15px;">
+              Sorry, this Ethereum network is not supported. I support Mainnet and Ropsten only.
+          </p>
+          <hr />
+        </div>
+      </div>
+
+
+      <div class="row panels-buttons hidden">
+        <div class="col-xs-8 col-sm-6 col-sm-push-2">
+          <button class="btn btn-primary btn-encrypt-panel">Encrypt</button>
+          <button class="btn btn-info btn-decrypt-panel">Decrypt</button>
+        </div>
+        <div class="network-info col-xs-4 col-sm-2 col-sm-push-2 text-right text-danger">
+        </div>
+      </div>
+
+
+      <div class="row encrypt-panel hidden" style="margin-top: 10px;">
+          <div class="col-xs-12 col-sm-8 col-sm-push-2">
+          <p>
+            1. Provide the address of vulnerable contract (or personal address of the receiver): <br />
+            <div class="row">
+              <div class="col-xs-12 col-sm-9">
+                <input type="text" name="receiver-address" placeholder="0x6519f33e3ab37fbb5885d1fa7bcd754346ab7ef0" style="width: 100%;" />
+              </div>
+
+              <div class="col-xs-6 col-sm-3 text-right">
+                <button class="load-key">Load public key!</button>
+              </div>
+            </div>
+            
+          </p>
+
+          <div class="bg-info text-info dont-break-out hidden load-key-console" style="padding: 10px;">
+          </div>
+
+          <div class="bg-danger text-danger hidden dont-break-out load-key-error-console" style="padding: 10px;"></div>
+
+          <hr />
+
+          <div class="message-row hidden">
+            <p>
+              2. Message to be encrypted: <br />
+              <div class="row">
+                <div class="col-xs-14 col-sm-10">
+                  <input type="text" placeholder="Contact me ASAP on <youremail>!" value="XXX" name="message" style="width: 100%;" />
+                </div>
+
+                <div class="col-xs-4 col-sm-2 text-right">
+                  <button class="encrypt-message">Encrypt!</button>
+                </div>
+              </div>
+            </p>
+
+            <div class="bg-info text-info dont-break-out hidden encrypt-console" style="padding: 10px;">
+            </div>
+
+            <div class="bg-danger text-danger hidden encrypt-error-console" style="padding: 10px;">
+            </div>
+
+            <hr />
+          </div>
+
+          <div class="send-row hidden">
+            <p>
+              2. Send message: <br />
+              <div class="row">
+                <div class="col-xs-14 col-sm-10">
+                    <div class="bg-info text-info dont-break-out send-info" style="padding: 10px;">
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-sm-2 text-align">
+                  <button class="send-message btn btn-primary btn-lg">Send!</button>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-xs-12 col-sm-9">
+                  <input type="checkbox" checked="checked" name="add-info" class="add-info" /> Add link to this site to the message? It will help the receiver to decrypt the message.
+                </div>
+              </div>
+            </p>
+
+            <div class="bg-success text-success send-console hidden" style="padding: 10px;"></div>
+
+            <div class="bg-danger text-danger send-error-console hidden" style="padding: 10px;"></div>
+
+            <hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="row decrypt-panel hidden" style="margin-top: 10px;">
+          <div class="col-xs-12 col-sm-8 col-sm-push-2">
+          <p>
+            1. Provide the hash of transaction with the message: <br />
+            <div class="row">
+              <div class="col-xs-10 col-sm-8">
+                <input type="text" name="encrypted-tx-hash" style="width: 100%;" placeholder="0xd5fba20cfb923572d5411daa0a59a07fca6d61d6ee10c3c8ced512fd5adfcff8" />
+              </div>
+
+              <div class="col-xs-8 col-sm-4 text-right">
+                <button class="load-encrypted-tx">Load encrypted message!</button>
+              </div>
+            </div>
+            
+          </p>
+
+          <div class="bg-info text-info dont-break-out load-tx-console hidden" style="padding: 10px;"></div>
+
+          <div class="bg-danger text-danger load-tx-error-console hidden" style="padding: 10px;"></div>
+
+          <hr />
+
+          <div class="decrypt-row hidden">
+            <p>
+              2. Provide your private key: <br />
+              You can export the private key in MetaMask.<br />
+              <strong>Do not worry, it is not sent anywhere.</strong><br />
+              <div class="row">
+                <div class="col-xs-14 col-sm-10">
+                  <input type="password" name="private-key" style="width: 100%;" value="" />
+                </div>
+
+                <div class="col-xs-4 col-sm-2 text-right">
+                  <button class="decrypt-message btn btn-primary">Decrypt!</button>
+                </div>
+              </div>
+            </p>
+
+            <div class="hidden bg-info text-success dont-break-out decrypt-console" style="padding: 10px;"></div>
+
+            <div class="hidden bg-danger text-danger decrypt-error-console hidden" style="padding: 10px;"></div>
+
+            <hr />
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-push-2 text-right">
+          Brought to you by <a href="https://twitter.com/drdr_zz/">@drdr_zz</a>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/ethereumjs-tx-1.3.3.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/aes.js"></script>
+    <script src="js/elliptic.js"></script>
+    <script src="js/app.js"></script>
+    
+  </body>
+</html>
