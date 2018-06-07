@@ -1,7 +1,7 @@
 Ethereum Responsible Disclosure Messenger (by @drdr_zz).
 ========================================
 
-Check it out right now: https://damianrusinek.github.io/eth-messenger-dapp/
+Check it out right now: https://securing.github.io/eth-rd-messenger/
 
 This tool is used to:
 * send a secret message to the owner of a personal or contract Ethereum address, encypted with its owner ECC public key,
